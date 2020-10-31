@@ -63,7 +63,7 @@ def map_pixels_to_ascii_chars(image, range_width=25):
 
 
 def convert_image_to_ascii(image, new_width=100):
-    image = scale_image(image)
+    image = scale_image(image, new_width)
     image = convert_to_grayscale(image)
 
     pixels_to_chars = map_pixels_to_ascii_chars(image)
@@ -88,14 +88,25 @@ def handle_image_conversion(image_filepath):
         print(e)
         return
 
-    image_ascii = convert_image_to_ascii(image)
+    scaled = int(sys.argv[3]) if len(sys.argv) > 3 and sys.argv[3] else 100
+
+    image_ascii = convert_image_to_ascii(image, scaled)
     print(image_ascii)
 
+
+def usage():
+    print('Usage: Making art is a skill!')
+    print('\tpython(3) path_to_source_image output_folder_name scale_factor_default_100')
+    print('\tEx: python3 example/make_art.py example/ztm-logo.png example')
+    print('\tOr to scale the output by 73%...')
+    print('\tEx: python3 example/make_art.py example/ztm-logo.png example 73')
 
 
 if __name__ == '__main__':
     import sys
 
-
-    print(image_file_path)
-    handle_image_conversion(image_file_path)
+    if len(sys.argv) < 3:
+        usage()
+    else:
+        print(image_file_path)
+        handle_image_conversion(image_file_path)
